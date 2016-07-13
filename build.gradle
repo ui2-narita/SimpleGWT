@@ -1,0 +1,77 @@
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+  mavenCentral()
+}
+
+sourceSets {
+  main.java.srcDir "src/main/java"
+  test.java.srcDir "src/test/java"
+}
+
+dependencies {
+  compileOnly 'com.google.gwt:gwt-user:2.7.0',
+              'com.google.gwt:gwt-dev:2.7.0',
+              'org.fusesource.restygwt:restygwt:2.0.3'
+
+  compile     'javax.ws.rs:javax.ws.rs-api:2.0.1'
+  
+  testCompile 'org.codehaus.groovy:groovy-all:2.4.5',
+              'org.spockframework:spock-core:1.0-groovy-2.4',
+              'org.spockframework:spock-spring:1.0-groovy-2.4'
+}
+
+eclipse {
+  classpath {
+    containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
+    containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
+  }
+}
+task compileGwt(dependsOn: classes, type: JavaExec) {
+  ext.buildDir = "${project.buildDir}/gwt"
+  ext.extraDir = "${project.buildDir}/extra"
+
+  inputs.source sourceSets.main.java.srcDirs
+  inputs.dir sourceSets.main.output.resourcesDir
+  outputs.dir buildDir
+
+  doFirst {
+      file(buildDir).mkdirs()
+  }
+
+  main = 'com.google.gwt.dev.Compiler'
+
+  classpath {
+      [
+              sourceSets.main.java.srcDirs,           // Java source
+              sourceSets.main.output.resourcesDir,    // Generated resources
+              sourceSets.main.output.classesDir,      // Generated classes
+              sourceSets.main.compileClasspath,       // Deps
+      ]
+  }
+
+  args = [
+          'jp.co.ui2',
+          '-war', buildDir,
+          '-logLevel', 'INFO',
+          '-localWorkers', '4',
+          '-compileReport',
+          '-extra', extraDir,
+          '-style', 'OBF',
+          '-optimize', '7' // 0=none, 9=max
+  ]
+
+  maxHeapSize = '512M'
+}
+
+buildscript {
+  repositories {
+        jcenter()
+    }
+}

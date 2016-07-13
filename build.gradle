@@ -3,16 +3,17 @@ apply plugin: 'groovy'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
 repositories {
   mavenCentral()
 }
 
 sourceSets {
-  main.java.srcDir "src/main/java"
-  test.java.srcDir "src/test/java"
+  main.java.srcDir      'src/main/java'
+  main.resources.srcDir 'src/main/resources'
+  test.java.srcDir      'src/test/java'
 }
 
 dependencies {
@@ -57,7 +58,7 @@ task compileGwt(dependsOn: classes, type: JavaExec) {
   }
 
   args = [
-          'jp.co.ui2',
+          'jp.co.ui2.SimpleGWT',
           '-war', buildDir,
           '-logLevel', 'INFO',
           '-localWorkers', '4',

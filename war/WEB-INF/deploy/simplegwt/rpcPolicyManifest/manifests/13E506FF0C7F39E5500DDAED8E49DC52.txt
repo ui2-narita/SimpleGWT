@@ -1,2 +1,0 @@
-serviceClass: jp.co.ui2.client.GreetingService
-path: B7B47CD4597DAFE064C5C61525910B0F.gwt.rpc

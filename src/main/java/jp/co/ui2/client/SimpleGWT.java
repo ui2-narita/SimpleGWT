@@ -1,6 +1,15 @@
 package jp.co.ui2.client;
 
 import jp.co.ui2.shared.FieldVerifier;
+import jp.co.ui2.shared.OrderConfirmation;
+import jp.co.ui2.shared.Pizza;
+import jp.co.ui2.shared.PizzaOrder;
+
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
+import org.fusesource.restygwt.client.Resource;
+import org.fusesource.restygwt.client.RestServiceProxy;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -8,6 +17,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -37,6 +47,15 @@ public class SimpleGWT implements EntryPoint {
    * This is the entry point method.
    */
   public void onModuleLoad() {
+    
+    final Button button = new Button("Place Pizza Order");
+    button.addClickHandler(new ClickHandler() {
+        public void onClick(ClickEvent event) {
+            placeOrder();
+        }
+    });
+    RootPanel.get().add(button);
+    
     final Button sendButton = new Button("Send");
     final TextBox nameField = new TextBox();
     nameField.setText("GWT User");
@@ -142,5 +161,42 @@ public class SimpleGWT implements EntryPoint {
     MyHandler handler = new MyHandler();
     sendButton.addClickHandler(handler);
     nameField.addKeyUpHandler(handler);
+  }
+  
+  private void placeOrder() {
+
+    PizzaService service = GWT.create(PizzaService.class);
+    Resource resource = new Resource(GWT.getModuleBaseURL() + "pizza-service");
+    ((RestServiceProxy) service).setResource(resource);
+
+    PizzaOrder order = new PizzaOrder();
+    order.delivery = true;
+    order.delivery_address.add("3434 Pinerun Ave.");
+    order.delivery_address.add("Tampa, FL  33734");
+
+    Pizza pizza    = new Pizza();
+    pizza.crust    = "thin";
+    pizza.quantity = 1;
+    pizza.size     = 16;
+    pizza.toppings.add("ham");
+    pizza.toppings.add("pineapple");
+    order.pizzas.add(pizza);
+
+    pizza = new Pizza();
+    pizza.crust    = "thin";
+    pizza.quantity = 1;
+    pizza.size     = 16;
+    pizza.toppings.add("extra cheese");
+    order.pizzas.add(pizza);
+
+    MethodCallback<OrderConfirmation> callback = new MethodCallback<OrderConfirmation>() {
+      public void onSuccess(Method method, OrderConfirmation receipt) {
+        RootPanel.get().add(new Label("got receipt: " + receipt));
+      }
+      public void onFailure(Method method, Throwable exception) {
+        Window.alert("Error: " + exception);
+      }
+    };
+    service.order(order, callback);
   }
 }

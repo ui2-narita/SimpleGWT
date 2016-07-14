@@ -21,7 +21,12 @@ dependencies {
               'com.google.gwt:gwt-dev:2.7.0',
               'org.fusesource.restygwt:restygwt:2.0.3'
 
-  compile     'javax.ws.rs:javax.ws.rs-api:2.0.1'
+  compile     'javax.ws.rs:javax.ws.rs-api:2.0.1',
+              'ch.qos.logback:logback-core:1.1.7',
+              'ch.qos.logback:logback-classic:1.1.7',
+              'org.slf4j:slf4j-api:1.7.21',
+              'com.fasterxml.jackson.core:jackson-databind:2.8.0',
+              'org.projectlombok:lombok:1.16.8'
   
   testCompile 'org.codehaus.groovy:groovy-all:2.4.5',
               'org.spockframework:spock-core:1.0-groovy-2.4',

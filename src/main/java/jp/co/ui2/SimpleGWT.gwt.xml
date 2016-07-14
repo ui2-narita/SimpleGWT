@@ -21,6 +21,11 @@
   <!-- REST API -->
   <inherits name="org.fusesource.restygwt.RestyGWT"/>
   
+  <!-- Servlet module -->
+  <servlet path='/pizza-service'          class='jp.co.ui2.server.PizzaServlet'/>
+  <servlet path='/pizza-service/toppings' class='jp.co.ui2.server.PizzaServlet'/>
+  <servlet path='/pizza-service/ping'     class='jp.co.ui2.server.PizzaServlet'/>
+   
   <!-- Specify the app entry point class.                         -->
   <entry-point class='jp.co.ui2.client.SimpleGWT'/>
 

@@ -2,3 +2,5 @@
 build/
 gwt-unitCache/
 war/simplegwt/
+war/WEB-INF/classes/
+war/WEB-INF/deploy/

@@ -1,9 +1,14 @@
 package jp.co.ui2.shared;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.fusesource.restygwt.client.JsonEncoderDecoder;
 
 import com.google.gwt.core.client.GWT;
 
+import lombok.Data;
+
+@Data @XmlRootElement
 public class OrderConfirmation {
 
   public long order_id;

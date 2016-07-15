@@ -1,8 +1,12 @@
 package jp.co.ui2.shared;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+import lombok.Data;
 import lombok.ToString;
 
 @ToString
+@Data @XmlRootElement
 public class Topping {
 
   public final String name;

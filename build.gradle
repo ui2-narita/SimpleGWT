@@ -26,6 +26,7 @@ dependencies {
               'ch.qos.logback:logback-classic:1.1.7',
               'org.slf4j:slf4j-api:1.7.21',
               'com.fasterxml.jackson.core:jackson-databind:2.8.0',
+              'com.google.gwt:gwt-servlet:2.7.0',
               'org.projectlombok:lombok:1.16.8'
   
   testCompile 'org.codehaus.groovy:groovy-all:2.4.5',
@@ -79,5 +80,5 @@ task compileGwt(dependsOn: classes, type: JavaExec) {
 buildscript {
   repositories {
         jcenter()
-    }
+  }
 }

@@ -3,13 +3,17 @@ package jp.co.ui2.shared;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.fusesource.restygwt.client.Json;
 import org.fusesource.restygwt.client.JsonEncoderDecoder;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gwt.core.client.GWT;
 
+import lombok.Data;
 
+@Data @XmlRootElement
 public class PizzaOrder {
 
   public String phone_number;
@@ -17,7 +21,7 @@ public class PizzaOrder {
   
   @Json(name="delivery-address")
   @JsonProperty("delivery-address")
-  public List<String> delivery_address = new ArrayList<String>(4);
+  public List<String> delivery_address = new ArrayList<String>();
 
   public List<Pizza> pizzas = new ArrayList<Pizza>(10);
 
